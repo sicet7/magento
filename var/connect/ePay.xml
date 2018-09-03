@@ -1,5 +1,5 @@
 <_>
-   <form_key>qX2ReaVgfMb0uHXr</form_key>
+   <form_key>1WsrNnp7sjszkAsg</form_key>
    <name>ePay</name>
    <channel>community</channel>
    <version_ids>
@@ -38,11 +38,11 @@ This program is free software for merchants. You are allowed to use the software
 Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
    <license>ePay limited license</license>
    <license_uri/>
-   <version>2.9.1</version>
+   <version>2.9.2</version>
    <stability>stable</stability>
-   <notes>* Fix for truncated card number not being encrypted when saved in the magento database.
+   <notes>* Code fix for truncated card numbers
 
-**This and previous releases is tested on Magento v 1.9.x . We can not guarantee that it will work on other versions of Magento. Also if you are running Magento on PHP 7.x there might be errors in the Magento calculation of tax and discount**
+**This and previous releases is tested on Magento v 1.9.x . We can not guarantee that it will work on other versions of Magento. 
 
 **Notice:**
 - Before upgrading to this version you must be on version 2.6.4 or newer.
@@ -77,7 +77,7 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
             <max/>
          </max>
          <files>
-            <files>                                                                                                                                                                                     </files>
+            <files>                                                                                                                                                                                      </files>
          </files>
       </package>
       <extension>
