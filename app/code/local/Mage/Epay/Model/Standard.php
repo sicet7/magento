@@ -83,17 +83,47 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         return Mage::helper('core')->decrypt($passwordEnc);
     }
 
-    public function getPaymentRequestAsString($order)
+    /**
+     * Turn the payment request array into a string
+     * @param mixed $paymentRequest 
+     * @return string
+     */
+    public function getPaymentRequestAsString($paymentRequest)
+    {
+        $keyValueArray = array();
+        foreach ($paymentRequest as $key => $value) {
+            $keyValueArray[] = "'" . $key . "':'" . $value . "'";
+        }
+
+        return implode(",\n", $keyValueArray);
+    }
+
+    /**
+     * Generate a payment request based on the data from the order
+     * @param mixed $order 
+     * @return array
+     */
+    public function getPaymentRequest($order)
     {
         $storeId = $order->getStoreId();
         $currencyCode = $order->getBaseCurrencyCode();
         $minorunits = $this->epayHelper->getCurrencyMinorunits($currencyCode);
         $amount = $order->getBaseTotalDue();
+        $mobile = $this->getConfigData('enablemobilepaymentwindow', $storeId);
+        $windowState = $this->getConfigData('windowstate', $storeId);
+
+        if($mobile === "1" && $windowState === "1") {
+            $isMobile = $this->isMobileDevice();
+            if($isMobile) {
+                $windowState = "3";
+            }
+        }
+
         $paymentRequest = array(
                            'encoding' => "UTF-8",
                            'cms' => $this->getCmsInfo(),
-                           'windowstate' => $this->getConfigData('windowstate', $storeId),
-                           'mobile' => $this->getConfigData('enablemobilepaymentwindow', $storeId),
+                           'windowstate' => $windowState,
+                           'mobile' => $mobile,
                            'merchantnumber' => $this->getConfigData('merchantnumber', $storeId),
                            'windowid' => $this->getConfigData('windowid', $storeId),
                            'amount' => $this->epayHelper->convertPriceToMinorunits($amount, $minorunits, $this->getConfigData('roundingmode', $storeId)),
@@ -114,19 +144,20 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $paymentRequest['invoice'] = $this->createInvoice($order);
         }
 
-
         $md5key = $this->getConfigData('md5key');
 
         $paymentRequest['hash']  = $this->generateMD5Key($paymentRequest, $md5key);
 
-        $keyValueArray = array();
-        foreach ($paymentRequest as $key => $value) {
-            $keyValueArray[] = "'" . $key . "':'" . $value . "'";
-        }
+        return $paymentRequest;
+    }
 
-        $paymentRequestString = implode(",\n", $keyValueArray);
 
-        return $paymentRequestString;
+    /**
+     * Check if the user is using a mobile device
+     * @return integer
+     */
+    public function isMobileDevice() {
+        return preg_match("/(android|iphone|blackberry|mobile|windows ce|opera mini|palm|opera mobi)/i", $_SERVER["HTTP_USER_AGENT"]);
     }
 
     /**
@@ -137,63 +168,63 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function createInvoice($order)
     {
-            $invoice["customer"]["emailaddress"] = $order->getCustomerEmail();
-            $invoice["customer"]["firstname"] = $this->removeSpecialCharacters($order->getBillingAddress()->getFirstname());
-            $invoice["customer"]["lastname"] = $this->removeSpecialCharacters($order->getBillingAddress()->getLastname());
-            $invoice["customer"]["address"] = $this->removeSpecialCharacters($order->getBillingAddress()->getStreetFull());
-            $invoice["customer"]["zip"] = $this->removeSpecialCharacters($order->getBillingAddress()->getPostcode());
-            $invoice["customer"]["city"] = $this->removeSpecialCharacters($order->getBillingAddress()->getCity());
-            $invoice["customer"]["country"] = $this->removeSpecialCharacters($order->getBillingAddress()->getCountryId());
+        $invoice["customer"]["emailaddress"] = $order->getCustomerEmail();
+        $invoice["customer"]["firstname"] = $this->removeSpecialCharacters($order->getBillingAddress()->getFirstname());
+        $invoice["customer"]["lastname"] = $this->removeSpecialCharacters($order->getBillingAddress()->getLastname());
+        $invoice["customer"]["address"] = $this->removeSpecialCharacters($order->getBillingAddress()->getStreetFull());
+        $invoice["customer"]["zip"] = $this->removeSpecialCharacters($order->getBillingAddress()->getPostcode());
+        $invoice["customer"]["city"] = $this->removeSpecialCharacters($order->getBillingAddress()->getCity());
+        $invoice["customer"]["country"] = $this->removeSpecialCharacters($order->getBillingAddress()->getCountryId());
 
-            $invoice["shippingaddress"]["firstname"] = $this->removeSpecialCharacters($order->getShippingAddress()->getFirstname());
-            $invoice["shippingaddress"]["lastname"] = $this->removeSpecialCharacters($order->getShippingAddress()->getLastname());
-            $invoice["shippingaddress"]["address"] = $this->removeSpecialCharacters($order->getShippingAddress()->getStreetFull());
-            $invoice["shippingaddress"]["zip"] = $this->removeSpecialCharacters($order->getShippingAddress()->getPostcode());
-            $invoice["shippingaddress"]["city"] = $this->removeSpecialCharacters($order->getShippingAddress()->getCity());
-            $invoice["shippingaddress"]["country"] = $this->removeSpecialCharacters($order->getShippingAddress()->getCountryId());
+        $invoice["shippingaddress"]["firstname"] = $this->removeSpecialCharacters($order->getShippingAddress()->getFirstname());
+        $invoice["shippingaddress"]["lastname"] = $this->removeSpecialCharacters($order->getShippingAddress()->getLastname());
+        $invoice["shippingaddress"]["address"] = $this->removeSpecialCharacters($order->getShippingAddress()->getStreetFull());
+        $invoice["shippingaddress"]["zip"] = $this->removeSpecialCharacters($order->getShippingAddress()->getPostcode());
+        $invoice["shippingaddress"]["city"] = $this->removeSpecialCharacters($order->getShippingAddress()->getCity());
+        $invoice["shippingaddress"]["country"] = $this->removeSpecialCharacters($order->getShippingAddress()->getCountryId());
 
 
-            $currencyCode = $order->getBaseCurrencyCode();
-            $minorunits = $this->epayHelper->getCurrencyMinorunits($currencyCode);
-            $storeId = $order->getStoreId();
-            $roundingMode = $this->getConfigData('roundingmode', $storeId);
-            $invoice["lines"] = array();
-            $items = $order->getAllVisibleItems();
-            foreach ($items as $item) {
-                $description = empty($item->getDescription()) ? $item->getName() : $item->getDescription();
-                $invoice["lines"][] = array(
-                        "id" =>$item->getSku(),
-                        "description" => $this->removeSpecialCharacters($description),
-                        "quantity" => intval($item->getQtyOrdered()),
-                        "price" => $this->epayHelper->convertPriceToMinorunits($item->getBasePrice(), $minorunits, $roundingMode),
-                        "vat" => floatval($item->getTaxPercent())
-                    );
-            }
-            // add shipment as line
-            $shippingText = __("Shipping");
-            $shippingDescription = $order->getShippingDescription();
-            $shippingTaxClass = Mage::getStoreConfig('tax/classes/shipping_tax_class');
-            $shippingTaxPercent = $this->getTaxRate($order, $shippingTaxClass);
+        $currencyCode = $order->getBaseCurrencyCode();
+        $minorunits = $this->epayHelper->getCurrencyMinorunits($currencyCode);
+        $storeId = $order->getStoreId();
+        $roundingMode = $this->getConfigData('roundingmode', $storeId);
+        $invoice["lines"] = array();
+        $items = $order->getAllVisibleItems();
+        foreach ($items as $item) {
+            $description = empty($item->getDescription()) ? $item->getName() : $item->getDescription();
             $invoice["lines"][] = array(
-                       "id" => $shippingText,
-                       "description" => isset($shippingDescription) ? $shippingDescription : $shippingText,
-                       "quantity" => 1,
-                       "price" => $this->epayHelper->convertPriceToMinorunits($order->getBaseShippingAmount(), $minorunits, $roundingMode),
-                       "vat" => $shippingTaxPercent
-                   );
+                    "id" =>$item->getSku(),
+                    "description" => $this->removeSpecialCharacters($description),
+                    "quantity" => intval($item->getQtyOrdered()),
+                    "price" => $this->epayHelper->convertPriceToMinorunits($item->getBasePrice(), $minorunits, $roundingMode),
+                    "vat" => floatval($item->getTaxPercent())
+                );
+        }
+        // add shipment as line
+        $shippingText = __("Shipping");
+        $shippingDescription = $order->getShippingDescription();
+        $shippingTaxClass = Mage::getStoreConfig('tax/classes/shipping_tax_class');
+        $shippingTaxPercent = $this->getTaxRate($order, $shippingTaxClass);
+        $invoice["lines"][] = array(
+                   "id" => $shippingText,
+                   "description" => isset($shippingDescription) ? $shippingDescription : $shippingText,
+                   "quantity" => 1,
+                   "price" => $this->epayHelper->convertPriceToMinorunits($order->getBaseShippingAmount(), $minorunits, $roundingMode),
+                   "vat" => $shippingTaxPercent
+               );
 
-            $baseDiscountAmount = $order->getBaseDiscountAmount();
-            if($baseDiscountAmount != 0) {
-                $discountDescription = $order->getDiscountDescription();
-                $invoice["lines"][] = array(
-                    "id" => "discount",
-                    "description" => isset($discountDescription) ? __("Discount") . " ". $discountDescription : __("Discount"),
-                     "quantity" => 1,
-                     "price" => $this->epayHelper->convertPriceToMinorunits($baseDiscountAmount, $minorunits, $roundingMode),
-                      );
-            }
+        $baseDiscountAmount = $order->getBaseDiscountAmount();
+        if($baseDiscountAmount != 0) {
+            $discountDescription = $order->getDiscountDescription();
+            $invoice["lines"][] = array(
+                "id" => "discount",
+                "description" => isset($discountDescription) ? __("Discount") . " ". $discountDescription : __("Discount"),
+                 "quantity" => 1,
+                 "price" => $this->epayHelper->convertPriceToMinorunits($baseDiscountAmount, $minorunits, $roundingMode),
+                  );
+        }
 
-            return json_encode($invoice, JSON_UNESCAPED_UNICODE);
+        return json_encode($invoice, JSON_UNESCAPED_UNICODE);
     }
 
     public function getTaxRate($order, $taxClass)
@@ -308,7 +339,8 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             }
 
             return $this;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             Mage::throwException($e->getMessage());
             return null;
         }
@@ -381,7 +413,8 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             }
 
             return $this;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             Mage::throwException($e->getMessage());
             return null;
         }
@@ -397,7 +430,8 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
             $this->void($payment);
             $this->adminMessageHandler()->addSuccess($this->epayHelper->__("The payment have been voided for").' ('.$payment->getOrder()->getIncrementId() .')');
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $this->adminMessageHandler()->addError($e->getMessage());
         }
 
@@ -463,7 +497,8 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             }
 
             return $this;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             Mage::throwException($e->getMessage());
             return null;
         }
@@ -491,7 +526,8 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             if ($result->getEpayErrorResult == 1) {
                 $res = $result->epayresponsestring;
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             return $res;
         }
 
@@ -516,7 +552,8 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             if ($result->getPbsErrorResult == 1) {
                 $res = $result->pbsresponsestring;
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             return $res;
         }
 

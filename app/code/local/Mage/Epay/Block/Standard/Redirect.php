@@ -30,7 +30,7 @@ class Mage_Epay_Block_Standard_Redirect extends Mage_Core_Block_Template
                             '.$data["paymentRequest"] .'
                         });';
 
-        if ($data["isOverlay"] === true) {
+        if ($data["isOverlay"] === "1") {
             $html .= 'paymentwindow.on("close",function(){ window.location.href = "'. $data["cancelUrl"] .'";});';
         }
 
