@@ -19,7 +19,7 @@
     <payment>
       <groups>
         <epay_standard translate="label" module="epay">
-          <label>ePay | Payment Solutions 2.9.2</label>
+          <label>ePay | Payment Solutions 2.9.3</label>
           <comment><![CDATA[Detailed description of these settings are to be found on <a href="http://www.magentoguiden.dk" target="_blank">www.magentoguiden.dk</a>.<br><br>]]></comment>
           <frontend_type>text</frontend_type>
           <sort_order>1</sort_order>
