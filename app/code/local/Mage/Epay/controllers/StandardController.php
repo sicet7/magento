@@ -73,10 +73,8 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
                 $paymentRequestString = $paymentMethod->getPaymentRequestAsString($paymentRequest);
 
                 $paymentData = array("paymentRequest"=> $paymentRequestString,
-                                     "cancelUrl"=> $paymentRequest["cancelurl"],
                                      "headerText"=> $this->epayHelper->__("Thank you for using Bambora Online ePay"),
-                                     "headerText2"=> $this->epayHelper->__("Please wait..."),
-                                     "isOverlay"=> $paymentRequest["windowstate"]);
+                                     "headerText2"=> $this->epayHelper->__("Please wait..."));
 
                 $this->loadLayout();
                 $block = $this->getLayout()->createBlock('epay/standard_redirect', 'epayredirect', $paymentData);

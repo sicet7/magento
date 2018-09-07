@@ -85,7 +85,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     /**
      * Turn the payment request array into a string
-     * @param mixed $paymentRequest 
+     * @param mixed $paymentRequest
      * @return string
      */
     public function getPaymentRequestAsString($paymentRequest)
@@ -100,7 +100,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     /**
      * Generate a payment request based on the data from the order
-     * @param mixed $order 
+     * @param mixed $order
      * @return array
      */
     public function getPaymentRequest($order)
@@ -109,21 +109,12 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $currencyCode = $order->getBaseCurrencyCode();
         $minorunits = $this->epayHelper->getCurrencyMinorunits($currencyCode);
         $amount = $order->getBaseTotalDue();
-        $mobile = $this->getConfigData('enablemobilepaymentwindow', $storeId);
-        $windowState = $this->getConfigData('windowstate', $storeId);
-
-        if($mobile === "1" && $windowState === "1") {
-            $isMobile = $this->isMobileDevice();
-            if($isMobile) {
-                $windowState = "3";
-            }
-        }
-
+     
         $paymentRequest = array(
                            'encoding' => "UTF-8",
                            'cms' => $this->getCmsInfo(),
-                           'windowstate' => $windowState,
-                           'mobile' => $mobile,
+                           'windowstate' => "3",
+                           'mobile' => $this->getConfigData('enablemobilepaymentwindow', $storeId),
                            'merchantnumber' => $this->getConfigData('merchantnumber', $storeId),
                            'windowid' => $this->getConfigData('windowid', $storeId),
                            'amount' => $this->epayHelper->convertPriceToMinorunits($amount, $minorunits, $this->getConfigData('roundingmode', $storeId)),
@@ -150,16 +141,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         return $paymentRequest;
     }
-
-
-    /**
-     * Check if the user is using a mobile device
-     * @return integer
-     */
-    public function isMobileDevice() {
-        return preg_match("/(android|iphone|blackberry|mobile|windows ce|opera mini|palm|opera mobi)/i", $_SERVER["HTTP_USER_AGENT"]);
-    }
-
+    
     /**
      * Summary of createInvoice
      *
