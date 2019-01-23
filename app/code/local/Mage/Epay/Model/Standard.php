@@ -109,7 +109,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $currencyCode = $order->getBaseCurrencyCode();
         $minorunits = $this->epayHelper->getCurrencyMinorunits($currencyCode);
         $amount = $order->getBaseTotalDue();
-     
+
         $paymentRequest = array(
                            'encoding' => "UTF-8",
                            'cms' => $this->getCmsInfo(),
@@ -141,7 +141,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
         return $paymentRequest;
     }
-    
+
     /**
      * Summary of createInvoice
      *
@@ -150,21 +150,27 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function createInvoice($order)
     {
-        $invoice["customer"]["emailaddress"] = $order->getCustomerEmail();
-        $invoice["customer"]["firstname"] = $this->removeSpecialCharacters($order->getBillingAddress()->getFirstname());
-        $invoice["customer"]["lastname"] = $this->removeSpecialCharacters($order->getBillingAddress()->getLastname());
-        $invoice["customer"]["address"] = $this->removeSpecialCharacters($order->getBillingAddress()->getStreetFull());
-        $invoice["customer"]["zip"] = $this->removeSpecialCharacters($order->getBillingAddress()->getPostcode());
-        $invoice["customer"]["city"] = $this->removeSpecialCharacters($order->getBillingAddress()->getCity());
-        $invoice["customer"]["country"] = $this->removeSpecialCharacters($order->getBillingAddress()->getCountryId());
+        $billingData = $order->getBillingAddress();
+        $shippingData = $order->getShippingAddress();
 
-        $invoice["shippingaddress"]["firstname"] = $this->removeSpecialCharacters($order->getShippingAddress()->getFirstname());
-        $invoice["shippingaddress"]["lastname"] = $this->removeSpecialCharacters($order->getShippingAddress()->getLastname());
-        $invoice["shippingaddress"]["address"] = $this->removeSpecialCharacters($order->getShippingAddress()->getStreetFull());
-        $invoice["shippingaddress"]["zip"] = $this->removeSpecialCharacters($order->getShippingAddress()->getPostcode());
-        $invoice["shippingaddress"]["city"] = $this->removeSpecialCharacters($order->getShippingAddress()->getCity());
-        $invoice["shippingaddress"]["country"] = $this->removeSpecialCharacters($order->getShippingAddress()->getCountryId());
+        if($billingData) {
+            $invoice["customer"]["emailaddress"] = $order->getCustomerEmail();
+            $invoice["customer"]["firstname"] = $this->removeSpecialCharacters($billingData->getFirstname());
+            $invoice["customer"]["lastname"] = $this->removeSpecialCharacters($billingData->getLastname());
+            $invoice["customer"]["address"] = $this->removeSpecialCharacters($billingData->getStreetFull());
+            $invoice["customer"]["zip"] = $this->removeSpecialCharacters($billingData->getPostcode());
+            $invoice["customer"]["city"] = $this->removeSpecialCharacters($billingData->getCity());
+            $invoice["customer"]["country"] = $this->removeSpecialCharacters($billingData->getCountryId());
+        }
 
+        if($shippingData) {
+            $invoice["shippingaddress"]["firstname"] = $this->removeSpecialCharacters($shippingData->getFirstname());
+            $invoice["shippingaddress"]["lastname"] = $this->removeSpecialCharacters($shippingData->getLastname());
+            $invoice["shippingaddress"]["address"] = $this->removeSpecialCharacters($shippingData->getStreetFull());
+            $invoice["shippingaddress"]["zip"] = $this->removeSpecialCharacters($shippingData->getPostcode());
+            $invoice["shippingaddress"]["city"] = $this->removeSpecialCharacters($shippingData->getCity());
+            $invoice["shippingaddress"]["country"] = $this->removeSpecialCharacters($shippingData->getCountryId());
+        }
 
         $currencyCode = $order->getBaseCurrencyCode();
         $minorunits = $this->epayHelper->getCurrencyMinorunits($currencyCode);
