@@ -19,7 +19,7 @@
     <payment>
       <groups>
         <epay_standard translate="label" module="epay">
-          <label>Bambora Online ePay | v3.0.0</label>
+          <label>Bambora Online ePay | v3.0.1</label>
           <comment><![CDATA[Detailed description of these settings are to be found on <a href="http://www.magentoguiden.dk" target="_blank">www.magentoguiden.dk</a>.<br><br>]]></comment>
           <frontend_type>text</frontend_type>
           <sort_order>1</sort_order>

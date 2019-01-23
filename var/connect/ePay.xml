@@ -1,5 +1,5 @@
 <_>
-   <form_key>BcVubbzdwFA2Vf7W</form_key>
+   <form_key>atU8jrUINVLm4vnx</form_key>
    <name>ePay</name>
    <channel>community</channel>
    <version_ids>
@@ -38,9 +38,9 @@ This program is free software for merchants. You are allowed to use the software
 Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
    <license>ePay limited license</license>
    <license_uri/>
-   <version>3.0.0</version>
+   <version>3.0.1</version>
    <stability>stable</stability>
-   <notes>* The payment window can no longer be displayed as an Overlay and will now always be displayed as Full Screen
+   <notes>* Fix for shipping address not available when only using virtual products.
 
 **This and previous releases is tested on Magento v 1.9.x . We can not guarantee that it will work on other versions of Magento. 
 
@@ -77,7 +77,7 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
             <max/>
          </max>
          <files>
-            <files>                                                                                                                                                                                        </files>
+            <files>                                                                                                                                                                                         </files>
          </files>
       </package>
       <extension>
