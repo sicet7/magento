@@ -474,7 +474,6 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         if ($result->epayresponse == -1019) {
                             throw new Exception($errorMessageBase . $this->epayHelper->__("Invalid password used for webservice access!"));
                         }
-
                         throw new Exception($errorMessageBase . '('.$result->epayresponse . ')' . $this->getEpayErrorText($result->epayresponse, $storeId));
                     } else {
                         throw new Exception($errorMessageBase . $this->epayHelper->__("Unknown error!"));

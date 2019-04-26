@@ -245,7 +245,7 @@ class Mage_Epay_Block_Adminhtml_Sales_Order_View_Tab_Info extends Mage_Adminhtml
                     if ($result->epayresponse == -1019) {
                         $res .= "<tr><td colspan='2'>" . $this->epayHelper->__("Invalid password used for webservice access!"). "</td>";
                     } else {
-                        $res .= "<tr><td colspan='2'>" . $paymentobj->getEpayErrorText($result->epayresponse) . "</td>";
+                        $res .= "<tr><td colspan='2'>" . $paymentobj->getEpayErrorText($result->epayresponse, $storeId) . "</td>";
                     }
                 } else {
                     $res .= "<tr><td colspan='2'>" . $this->epayHelper->__("Unknown error!") . "</td>";
