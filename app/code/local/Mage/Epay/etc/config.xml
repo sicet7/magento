@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Mage_Epay>
-      <version>3.0.1</version>
+      <version>3.1.0</version>
     </Mage_Epay>
   </modules>
   <global>
@@ -193,18 +193,7 @@
         <surchargemode>surcharge_order_line</surchargemode>
         <roundingmode>round_default</roundingmode>
       </epay_standard>
-      <ccsave>
-        <active>0</active>
-      </ccsave>
-      <free>
-        <active>0</active>
-      </free>
     </payment>
-    <web>
-      <session>
-        <use_remote_addr>0</use_remote_addr>
-      </session>
-    </web>
   </default>
   <admin>
     <routers>
