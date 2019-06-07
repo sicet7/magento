@@ -321,7 +321,7 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
                 $ePayRow = $dbReader->fetchRow("SELECT status, orderid FROM epay_order_status WHERE orderid = '{$orderId}'");
             }
 
-            if ($getQuery['paymentrequest'] && strlen($getQuery['paymentrequest']) > 0) {
+            if (isset($getQuery['paymentrequest']) && strlen($getQuery['paymentrequest']) > 0) {
                 //Mark as paid
                 $paymentRequestUpdate = Mage::getModel('epay/paymentrequest')->load($getQuery['paymentrequest'])->setData('ispaid', "1");
                 $paymentRequestUpdate->setId($getQuery['paymentrequest'])->save($paymentRequestUpdate);
