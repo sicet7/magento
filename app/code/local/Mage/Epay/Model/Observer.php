@@ -144,8 +144,8 @@ class Mage_Epay_Model_Observer
         /** @var Mage_Sales_Model_Order */
         $order = $observer->getOrder();
         if ($this->validatePaymentMethod($order)) {
-            $order->addStatusHistoryComment(Mage::helper('epay')->__("The Order is placed using ePay Online payment system and is now awaiting payment."))
-                ->setIsCustomerNotified(false);
+            $comment = Mage::helper('epay')->__("The Order is placed using ePay Online payment system and is now awaiting payment.");
+            $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,$order->getStatus(),$comment,false);
             $order->save();
         }
     }
