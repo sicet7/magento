@@ -156,7 +156,7 @@ class Mage_Epay_Block_Adminhtml_Sales_Order_View_Tab_Info extends Mage_Adminhtml
                 'pwd' =>  $paymentobj->getRemotePassword($storeId)
             );
 
-            $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL');
+            $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', array('encoding'=>'UTF-8'));
             $result = $client->gettransaction($param);
 
             if ($result->gettransactionResult === true) {

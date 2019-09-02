@@ -302,7 +302,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                     'pwd' => $this->getRemotePassword($storeId)
                 );
 
-                $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL');
+                $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', array('encoding'=>'UTF-8'));
                 $result = $client->capture($param);
 
                 if ($result->captureResult === true) {
@@ -376,7 +376,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                     'epayresponse' => 0,
                     'pwd' => $this->getRemotePassword($storeId)
                 );
-                $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL');
+                $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', array('encoding'=>'UTF-8'));
                 $result = $client->credit($param);
 
                 if ($result->creditResult == 1) {
@@ -462,7 +462,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                     'pwd' => $this->getRemotePassword($storeId)
                 );
 
-                $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL');
+                $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', array('encoding'=>'UTF-8'));
                 $result = $client->delete($param);
 
                 if ($result->deleteResult == 1) {
@@ -496,7 +496,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $res = "Unable to lookup errorcode";
 
         try {
-            $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL');
+            $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', array('encoding'=>'UTF-8'));
 
             $param = array(
                 'merchantnumber' => $this->getConfigData('merchantnumber', $storeId),
@@ -507,7 +507,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                 'pwd' => $this->getRemotePassword($storeId)
             );
 
-            $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL');
+            $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', array('encoding'=>'UTF-8'));
             $result = $client->getEpayError($param);
 
             if ($result->getEpayErrorResult == 1) {
@@ -534,7 +534,7 @@ class Mage_Epay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                 'epayresponse' => 0,
                 'pwd' => $this->getRemotePassword($storeId)
             );
-            $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL');
+            $client = new SoapClient('https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL', array('encoding'=>'UTF-8'));
             $result = $client->getPbsError($param);
             if ($result->getPbsErrorResult == 1) {
                 $res = $result->pbsresponsestring;
