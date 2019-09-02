@@ -1,5 +1,5 @@
 <_>
-   <form_key>1Jnv1RthrRtn5asB</form_key>
+   <form_key>gDBPDMc8evv6F4Ni</form_key>
    <name>ePay</name>
    <channel>community</channel>
    <version_ids>
@@ -38,11 +38,10 @@ This program is free software for merchants. You are allowed to use the software
 Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
    <license>ePay limited license</license>
    <license_uri/>
-   <version>3.1.0</version>
+   <version>3.1.1</version>
    <stability>stable</stability>
-   <notes>* Fix for missing parameter when trying to get the epay error message
-* Removed old API / WSDL code
-* Security and Performance enhancements
+   <notes>* Fix for state not being correctly set on order creation
+* Forces &apos;UTF-8&apos; on SOAP actions.
 
 
 **This and previous releases is tested on Magento v 1.9.x . We can not guarantee that it will work on other versions of Magento. 
@@ -63,7 +62,7 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
          <email>support@bambora.com</email>
       </email>
    </authors>
-   <depends_php_min>5.5.0</depends_php_min>
+   <depends_php_min>5.6.0</depends_php_min>
    <depends_php_max>100.0.0</depends_php_max>
    <depends>
       <package>
@@ -80,7 +79,7 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
             <max/>
          </max>
          <files>
-            <files>                                                                                                                                                                                          </files>
+            <files>                                                                                                                                                                                            </files>
          </files>
       </package>
       <extension>
@@ -162,8 +161,4 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
          <ignore/>
       </ignore>
    </contents>
-   <page>1</page>
-   <limit>200</limit>
-   <folder/>
-   <package/>
 </_>
