@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Mage_Epay>
-      <version>3.1.1</version>
+      <version>3.2.0</version>
     </Mage_Epay>
   </modules>
   <global>
@@ -187,6 +187,8 @@
         <order_status>pending</order_status>
         <order_status_after_payment>processing</order_status_after_payment>
         <use_auto_cancel>0</use_auto_cancel>
+        <auto_cancel_from_minute>60</auto_cancel_from_minute>
+        <auto_cancel_to_minute>1440</auto_cancel_to_minute>
         <cancelonedit>1</cancelonedit>
         <enablemobilepaymentwindow>1</enablemobilepaymentwindow>
         <enablesurcharge>0</enablesurcharge>

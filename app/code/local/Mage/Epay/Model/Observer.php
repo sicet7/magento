@@ -90,15 +90,19 @@ class Mage_Epay_Model_Observer
 
         if (intval($epayStandard->getConfigData('use_auto_cancel', $storeId)) === 1) {
             $date = Mage::getSingleton('core/date');
+            $fromDateTimeConfig = $epayStandard->getConfigData('auto_cancel_from_minute', $storeId);
+            $toDateTimeConfig = $epayStandard->getConfigData('auto_cancel_to_minute', $storeId);
+
+            $fromDateTimeValue = empty($fromDateTimeConfig) ? "1440" : $fromDateTimeConfig;
+            $toDateTimeValue = empty($toDateTimeConfig) ? "60" : $toDateTimeConfig;
 
             $orderCollection = Mage::getResourceModel('sales/order_collection');
-
             $orderCollection
                 ->addFieldToFilter('status', array('eq' => $epayStandard->getConfigData('order_status', null)))
                 ->addFieldToFilter(
                     'created_at', array(
-                    'to' => strtotime('-1 hour', strtotime($date->gmtDate())),
-                    'from' => strtotime('-1 day', strtotime($date->gmtDate())),
+                    'to' => strtotime("-{$toDateTimeValue} minutes", strtotime($date->gmtDate())),
+                    'from' => strtotime("-{$fromDateTimeValue} minutes", strtotime($date->gmtDate())),
                     'datetime' => true)
                 )
                 ->setOrder('created_at', 'ASC')
@@ -124,7 +128,7 @@ class Mage_Epay_Model_Observer
                     if ($row["status"] == '0') {
                         $orderModel->cancel();
                         $message = Mage::helper('epay')->__("Order was auto canceled because no payment has been made.");
-                        $orderModel->addStatusToHistory($orderModel->getStatus(), $message);
+                        $orderModel->addStatusHistoryComment($message)->setIsCustomerNotified(false);;
                         $orderModel->save();
                     }
                 } catch (Exception $e) {

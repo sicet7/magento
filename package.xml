@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<package>
+    <name>ePay</name>
+    <version>3.2.0</version>
+    <stability>stable</stability>
+    <license>ePay limited license</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>An online payment gateway for ePay payment solutions</summary>
+    <description>This is the payment module for the Scandinavian payment gateway ePay - http://www.epay.dk&#xD;
+&#xD;
+ePay is the leading payment system in Scandinavia, which offers payment solutions to both small and large companies. We have focus on flexible, effective and user friendly payment solutions for extreme competitive prices. &#xD;
+&#xD;
+Card types accepted by the ePay payment gateway:&#xD;
+- Dankort&#xD;
+- VISA/Dankort&#xD;
+- VISA&#xD;
+- VISA Electron&#xD;
+- MasterCard&#xD;
+- Maestro&#xD;
+- JCB&#xD;
+- Diners&#xD;
+- American Express&#xD;
+- Forbrugsforeningen&#xD;
+- eWire&#xD;
+- VISA 3D Secure&#xD;
+- MaserCard 3D secure&#xD;
+- JCB 3D secure&#xD;
+- Danske Bank e-betaling&#xD;
+- Nordea e-betaling&#xD;
+&#xD;
+Get a test account for free by contacting ePay at support@bambora.com or signup on page http://www.epay.dk/main/signup.asp. In step two - just enter "TEST ACCOUNT".&#xD;
+&#xD;
+For other enquiries please contact ePay at sales@epay.dk or by phone +45 98 13 90 40&#xD;
+&#xD;
+License:&#xD;
+This program is free software for merchants. You are allowed to use the software but NOT allowed to modify the software. It is also not legal to do any changes to the software and distribute it in your own name / brand. &#xD;
+&#xD;
+Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
+    <notes>* Change Auto Cancel to support custom time intervals&#xD;
+&#xD;
+&#xD;
+&#xD;
+**This and previous releases is tested on Magento v 1.9.x . We can not guarantee that it will work on other versions of Magento. &#xD;
+&#xD;
+**Notice:**&#xD;
+- Before upgrading to this version you must be on version 2.6.4 or newer.&#xD;
+- If you are on version 2.7.8 or older then you must re-enter your remote password and md5 key in the module configuration after updating to this version&#xD;
+- If you are using Surcharge fee you must re-enable this and select which mode it should be running.&#xD;
+</notes>
+    <authors><author><name>Bambora</name><user>bambora</user><email>support@bambora.com</email></author></authors>
+    <date>2020-02-11</date>
+    <time>11:07:50</time>
+    <contents><target name="magelocal"><dir name="Mage"><dir name="Epay"><dir name="Block"><dir name="Adminhtml"><dir name="Form"><dir name="Paymentrequest"><file name="Form.php" hash="53a3636849cd971e3b2608a93bc0436a"/><dir name="Tab"><file name="General.php" hash="f099ee09751de21d0566363c8ad7aa43"/><file name="Recipient.php" hash="8dc1d0746601212b9426bafcf22a4563"/></dir><file name="Tabs.php" hash="7a7945fa2a825aad6ac7774b597b8750"/></dir><file name="Paymentrequest.php" hash="49b96b1e6b1840bcfb59a63d08bdda64"/></dir><dir name="Paymentrequest"><file name="Grid.php" hash="c20497e20f7274597fc927718a5f55e7"/><dir name="Renderer"><file name="Amount.php" hash="9111f6410a116c57a9cb4959ee534143"/></dir><file name="View.php" hash="40c650965fe6d4471cdb804db5a71912"/></dir><file name="Paymentrequest.php" hash="c4989760bc141771d571336526556266"/><dir name="Sales"><dir name="Order"><dir name="View"><dir name="Tab"><file name="Info.php" hash="a1c38d02ce999224e4a97a51f4deef6d"/></dir></dir></dir></dir></dir><dir name="Standard"><file name="Form.php" hash="472376b9f2599873d270f12debc18211"/><file name="Info.php" hash="36f716210e09cd6b14c73c942d528abe"/><file name="Redirect.php" hash="68cdbf5ffccfeeca652c0ce20ae17818"/></dir></dir><dir name="Helper"><file name="Data.php" hash="8d124b35a385f9823380ed68d9110728"/><file name="EpayConstant.php" hash="4376d5d9b447544af432f6134146e5d1"/></dir><dir name="Model"><dir name="Mysql4"><dir name="Paymentrequest"><file name="Collection.php" hash="16684cf3c53053d03e691b4f3fd65286"/></dir><file name="Paymentrequest.php" hash="7e5cc61d089e4d0dca4a1a4d9741cb81"/><file name="Setup.php" hash="84c336c213a96fa457da314a0d2035d8"/></dir><file name="Observer.php" hash="b87837f45334fd8848291667efb320e9"/><file name="Paymentrequest.php" hash="528b2db1e95c7983dea936f9dc90298d"/><file name="Standard.php" hash="646fb1019a6cfefb5cf0570dac746e64"/><dir name="System"><dir name="Config"><dir name="Source"><file name="Roundingmode.php" hash="e1366db870fc8dabde3c4a3fdb83d501"/><file name="Surchargemode.php" hash="a8ef23a1a2aced5801019d498c918c75"/></dir></dir></dir></dir><dir name="controllers"><dir name="Adminhtml"><file name="MassactionController.php" hash="4ea9f36b426575375823b0469c8425e9"/><file name="PaymentController.php" hash="fe792cad435b9fbba6a3bd6fbe019b5f"/><file name="PaymentrequestController.php" hash="e9ec12dd31b914f5397ae7c07626c944"/></dir><file name="StandardController.php" hash="df4596f7b1546e61604d2a4433beaba4"/></dir><dir name="etc"><file name="config.xml" hash="417acceac6c028ed103b48d6cd914228"/><file name="system.xml" hash="f546f62f27a1509310a53bf62027e1bb"/></dir><dir name="sql"><dir name="epay_setup"><file name="mysql4-install-3.2.0.php" hash="94ba8d6ff0c3b76ca66fbe2be485145a"/><file name="mysql4-upgrade-2.6.4-3.2.0.php" hash="94ba8d6ff0c3b76ca66fbe2be485145a"/><file name="mysql4-upgrade-2.6.5-3.2.0.php" hash="a6545c97204ef76e7a37757af844d3f4"/><file name="mysql4-upgrade-2.6.6-3.2.0.php" hash="94ba8d6ff0c3b76ca66fbe2be485145a"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Mage_Epay.xml" hash="14886acfe9e2fe003adaa6241d769a4d"/></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="epay.xml" hash="a69c675072eb0032187273e72fc21982"/></dir><dir name="template"><dir name="epay"><dir name="standard"><file name="form.phtml" hash="b106a97109d29ec68a65f81154c9c701"/></dir></dir></dir></dir></dir></dir><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="template"><dir name="epay"><dir><dir name="order"><dir name="view"><dir name="tab"><file name="info.phtml" hash="e6a395aa2c2d9a332539496807f7787b"/></dir></dir></dir><dir name="paymentrequest"><file name="view.phtml" hash="e3fc5a7ea999b972ba8a4c990e3c0e4b"/></dir></dir></dir></dir><dir name="layout"><file name="epay.xml" hash="7759d2d3e2167b872011f7ced868e80d"/></dir></dir></dir></dir></target><target name="magelocale"><dir name="da_DK"><file name="Mage_Epay.csv" hash="ac21022fc2cc1c916e8c014da208f3ae"/></dir><dir name="en_US"><file name="Mage_Epay.csv" hash="8021feb92ef3ff4f74477de82943f430"/></dir></target><target name="mageskin"><dir name="adminhtml"><dir name="base"><dir name="default"><dir name="css"><dir name="epay"><file name="epayadminhtml.css" hash="f58b0982b1961c9a454dee9308993371"/></dir></dir></dir></dir></dir><dir name="frontend"><dir name="base"><dir name="default"><dir name="css"><dir name="epay"><file name="epayfrontend.css" hash="9a841ef4891ed7abaa1db93fb05c07cc"/></dir></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.6.0</min><max>100.0.0</max></php></required></dependencies>
+</package>
