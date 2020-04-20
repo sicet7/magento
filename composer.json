@@ -3,7 +3,7 @@
     "description": "This is the payment module for the Scandinavian payment gateway ePay",
     "homepage": "http://www.epay.dk/",
     "license": "proprietary",
-	"version": "3.1.1",
+	"version": "3.2.0",
     "keywords": ["e-commerce", "ecommerce", "payment", "gateway", "magento", "epay", "epay-classic", "bambora"],
     "type": "magento-module",
     "support": {
