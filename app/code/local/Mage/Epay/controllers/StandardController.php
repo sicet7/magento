@@ -151,25 +151,35 @@ class Mage_Epay_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function callbackAction()
     {
-        $message ='';
-        $responseCode = '400';
-        $order = null;
-        $request = $this->getRequest();
-        $getQuery = $request->getQuery();
-        if ($this->validateCallback($getQuery, $message, $order)) {
-            $message = $this->processCallback($getQuery, $responseCode);
-        } else {
-            if (isset($order) && $order->getId()) {
-                $order->addStatusHistoryComment("Callback from ePay returned with an error: ". $message);
-                $order->save();
+        try {
+            $message ='';
+            $responseCode = '400';
+            $order = null;
+            $request = $this->getRequest();
+            $getQuery = $request->getQuery();
+            if ($this->validateCallback($getQuery, $message, $order)) {
+                $message = $this->processCallback($getQuery, $responseCode);
+            } else {
+                if (isset($order) && $order->getId()) {
+                    $order->addStatusHistoryComment("Callback from ePay returned with an error: ". $message);
+                    $order->save();
+                }
             }
+
+            $this->getResponse()->setHeader('HTTP/1.0', $responseCode, true)
+                ->setHeader('Content-type', 'application/json', true)
+                ->setHeader('X-EPay-System', $this->getMethod()->getCmsInfo())
+                ->setBody($message);
+
+        } catch (\Exception $exception) {
+            Mage::log($exception, Zend_Log::ERR, 'epay-exceptions.log', true);
+            Mage::logException($exception);
+            $this->getResponse()
+                ->clearHeaders()
+                ->setHeader('HTTP/1.0', '500', true)
+                ->setHeader('Content-type', 'text/html', true)
+                ->setBody('Internal Server Error');
         }
-
-        $this->getResponse()->setHeader('HTTP/1.0', $responseCode, true)
-            ->setHeader('Content-type', 'application/json', true)
-            ->setHeader('X-EPay-System', $this->getMethod()->getCmsInfo())
-            ->setBody($message);
-
         return $this->_response;
     }
 

@@ -1,5 +1,5 @@
 <_>
-   <form_key>yCqflNjWwiSzes0b</form_key>
+   <form_key>aLWeZyYiOzkrI2Qs</form_key>
    <name>ePay</name>
    <channel>community</channel>
    <version_ids>
@@ -38,10 +38,9 @@ This program is free software for merchants. You are allowed to use the software
 Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
    <license>ePay limited license</license>
    <license_uri/>
-   <version>3.2.0</version>
+   <version>3.2.1</version>
    <stability>stable</stability>
-   <notes>* Change Auto Cancel to support custom time intervals
-
+   <notes>* Corrects Auto Cancel From and To default values
 
 
 **This and previous releases is tested on Magento v 1.9.x . We can not guarantee that it will work on other versions of Magento. 
@@ -79,7 +78,7 @@ Copyright ePay | Payment solutions - www.epay.dk (c) 2017.</description>
             <max/>
          </max>
          <files>
-            <files>                                                                                                                                                                                               </files>
+            <files>                                                                                                                                                                                                </files>
          </files>
       </package>
       <extension>

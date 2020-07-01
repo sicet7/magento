@@ -19,7 +19,7 @@
     <payment>
       <groups>
         <epay_standard translate="comment" module="epay">
-          <label>Bambora Online ePay | v3.2.0</label>
+          <label>Bambora Online ePay | v3.2.1</label>
           <comment><![CDATA[Detailed description of these settings are to be found on <a href="http://www.magentoguiden.dk" target="_blank">www.magentoguiden.dk</a>.<br><br>]]></comment>
           <frontend_type>text</frontend_type>
           <sort_order>1</sort_order>
@@ -266,7 +266,7 @@
             </use_auto_cancel>
             <auto_cancel_from_minute translate="label comment">
               <label><![CDATA[<b>Auto-Cancel Period-From (minutes):</b>]]></label>
-              <comment><![CDATA[Set the period  when the Auto-Cancel should start from in minutes. Example: The value 60 will take all orders that are more that 60 minutes old. Default value is 60]]></comment>
+              <comment><![CDATA[Set the period  when the Auto-Cancel should start from in minutes. Example: The value 1440 will take all orders that are less that 1440 minutes old. Default value is 1440]]></comment>
               <frontend_type>text</frontend_type>
               <validate>validate-number validate-greater-than-zero</validate>
               <depends><use_auto_cancel>1</use_auto_cancel></depends>
@@ -277,7 +277,7 @@
             </auto_cancel_from_minute>
             <auto_cancel_to_minute translate="label comment">
               <label><![CDATA[<b>Auto-Cancel Period-To (minutes):</b>]]></label>
-              <comment><![CDATA[Set when the Auto-Cancel should end from in minutes. Example: The value 1440 will take all orders that are less that 1440 minutes old. Default value is 1440]]></comment>
+              <comment><![CDATA[Set when the Auto-Cancel should end in minutes. Example: The value 60 will take all orders that are more that 60 minutes old. Default value is 60]]></comment>
               <frontend_type>text</frontend_type>
               <validate>validate-number validate-greater-than-zero</validate>
               <depends><use_auto_cancel>1</use_auto_cancel></depends>
